@@ -1,0 +1,19 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Python: Debug word_file_generator",
+      "type": "python",
+      "request": "launch",
+      "program": "${workspaceFolder}/word_file_generator.py",
+      "args": ["0", "0"],
+      "cwd": "${workspaceFolder}",
+      "console": "integratedTerminal",
+      "justMyCode": false,
+      "env": {},
+      "envFile": "${workspaceFolder}/.env",
+      "stopOnEntry": false,
+      "showReturnValue": true
+    }
+  ]
+}

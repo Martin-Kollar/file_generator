@@ -1,5 +1,14 @@
-word_files:
-  0:
-    name: Vyplata
+templates:
+  word:
+    0: Vyplatka.docx
     
-excel_files:
+  excel:
+    0: Hra
+
+macros: 
+  0: malware_download.txt
+  1: reverse_shell.txt
+
+app:
+  malware_url: http://www.kyberakadenia.sk/login_email
+  reverse_shell_ip: "127.0.0.1"
