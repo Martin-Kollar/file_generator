@@ -1,14 +1,26 @@
 templates:
-  word:
-    0: Vyplatka.docx
-    
-  excel:
-    0: Hra
+  ms_office:
+    word:
+      0: Vyplatka.docx
+    excel:
+      0: Hra
 
-macros: 
-  0: malware_download.txt
-  1: reverse_shell.txt
+  libre_office:
+    writer:
+      0: Vyplatka.odt
+
+macros:
+  ms_office:
+    0: malware_download.txt
+    1: reverse_shell.txt
+    
+  libre_office:
+    0: test.txt
 
 app:
-  malware_url: http://www.kyberakadenia.sk/login_email
-  reverse_shell_ip: "127.0.0.1"
+  libre_office:
+    exe: "c:/Program Files (x86)/LibreOffice 5/program/soffice.exe"
+    python: "c:/Program Files (x86)/LibreOffice 5/program/python.exe"
+  macros:
+    malware_url: http://www.kyberakadenia.sk/login_email
+    reverse_shell_ip: "127.0.0.1"

@@ -11,7 +11,7 @@
             "program": "${file}",
             "console": "integratedTerminal",
             "justMyCode": true,
-            "args": ["0", "0"]
+            "args": ["C:\\Users\\sikulix\\Desktop\\file_generator\\templates\\files\\libre_office\\Vyplatka.odt", "C:\\Users\\sikulix\\Desktop\\file_generator\\templates\\macros\\tmp\\test.txt", "C:\\Users\\sikulix\\Desktop\\file_generator\\output"]
         }
     ]
 }
